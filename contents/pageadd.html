@@ -12,50 +12,46 @@
         </div>
         <div class="tab-indicator"></div>
     </nav>
-	<button class="floating-action padded-full icon icon-edit active primary floating-action-bottom"></button>
+    <button class="floating-action padded-full icon icon-edit active primary floating-action-bottom"></button>
     <div class="content" data-tab-contents="true" data-disable-swipe="false" data-tab-default="1">
-		
+
         <div class="tab-content">
-			<ul class="list">
-			<li class="divider">Nouvelle recette</li>
-			</ul>
+            <ul class="list">
+                <li class="divider">Nouvelle recette</li>
+            </ul>
+            <div id="message_produit_fini"></div>
+            <div id="load" class="hidden"><img src="./images/load.gif"></div>
             <div class="padded-full">
-			<form>
-                <input type="text" placeholder="Full name">
-					
+                <form id="form_produit_fini" method="POST" action="serveur/ajax/requeteajax.php">
+                    <small class="text-muted">Exemple: Procédure d'obtention du jus de citron </small>
+                    <input type="text" name="nom_pro" id="nom_pro" placeholder="Entrez le nom du produit fini à obtenir">
+
+                    <small class="text-muted">Sélectionnez l'image de la recette </small>
+                    <input type="file" name="image" accept="image/*" id="image" >
                     <div class="input-wrapper">
-                        <input class="with-label" type="email" id="input-1">
-                        <label class="floating-label" for="input-1">First Name</label>
+                        <textarea class="with-label" name="description" id="description"  placeholder="Description de la recette" ></textarea>
+                        <textarea class="with-label" name="conditionnement" id="conditionnement"  placeholder="Détails sur le conditionnement" ></textarea>
+                        <textarea class="with-label" name="conservation" id="conservation"  placeholder="Conservation du produit fini" ></textarea>
+                        <textarea class="with-label" name="materiels_utilises" id="materiels_utilises" placeholder="Matériels utilisés pour la fabrication" ></textarea>
+                        <textarea class="with-label" name="ingredients" id="ingredients"  placeholder="Description de la recette" ></textarea>
+                        <textarea class="with-label" name="donnees_techn" id="donnees_techn"  placeholder="Données technologique et rendement" ></textarea>
+                        <input type="number" name="montant" id="montant" placeholder="Montant (selon la devise)">
+                        <input type="text" name="matiere_prem" id="matiere_prem" placeholder="Matière première utilisée">
+                        <input type="hidden" name="matiere_premiere" id="matiere_premiere" >
                     </div>
 
                     <ul class="list">
-                        <li class="">
-                            <label class="checkbox">
-                                <input type="checkbox" class="">
-                                Checkbox1
-                                <span></span>
-                            </label>
-                        </li>
-                        <li class="">
-                            <label class="checkbox">
-                                <input type="checkbox" class="">
-                                Checkbox2
-                                <span></span>
-                            </label>
-                        </li>
-                    </ul>
-                    <ul class="list">
                         <li class="padded-for-list">
                             <label class="radio">
-                                <input type="radio" name="test">
-                                Radio1
+                                <input type="radio" name="devise" value="CFA">
+                                CFA
                                 <span></span>
                             </label>
                         </li>
                         <li class="padded-for-list">
                             <label class="radio">
-                                <input type="radio" name="test">
-                                Radio2
+                                <input type="radio" name="devise" value="$">
+                                DOLLAR
                                 <span></span>
                             </label>
                         </li>
@@ -68,27 +64,89 @@
         <div class="tab-content">
             <div class="padded-">
                 <ul class="list">
-					<li class="divider">Liste de mes recettes</li>
-					<li>
-						<a href="#action" class="pull-left icon icon-edit"></a>
-						<span class="padded-list">Item</span>
-					</li>
-					<li>
-						<a href="#action" class="pull-left">Text</a>
-						<span class="padded-list">Item</span>
-					</li>
-					<li>
-						<a href="#action" class="pull-left icon icon-edit"></a>
-						<a href="#item" class="padded-list">Link</a>
-					</li>
-					<li>
-						<a href="#action" class="pull-left">Text</a>
-						<a href="#item" class="padded-list">Link</a>
-					</li>
-				</ul>
+                    <li class="divider">Liste de mes recettes</li>
+                    <li>
+                        <a href="#action" class="pull-left icon icon-edit"></a>
+                        <span class="padded-list">Item</span>
+                    </li>
+                    <li>
+                        <a href="#action" class="pull-left">Text</a>
+                        <span class="padded-list">Item</span>
+                    </li>
+                    <li>
+                        <a href="#action" class="pull-left icon icon-edit"></a>
+                        <a href="#item" class="padded-list">Link</a>
+                    </li>
+                    <li>
+                        <a href="#action" class="pull-left">Text</a>
+                        <a href="#item" class="padded-list">Link</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
-	
+
 
 </pageadd>
+<script>
+     $("#form_produit_fini").on('submit', function (e)
+        {
+            e.preventDefault();
+            $data = "?" + $(this).serialize() + "&ajouter_produit=1";
+
+            $div = $(this).parent().find("#message_produit_fini").empty();
+
+            $("#load").show();
+
+            $formData = new FormData($(this)[0]);
+
+
+
+            $.ajax(
+                    {
+                        url: $(this).attr("action") + $data,
+                        type: "POST",
+                        data: $formData,
+                        dataType: 'json',
+                        async: false,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function (json)
+                        {
+                            if (json.codeErreur === 0)
+                            {
+                                $div.addClass("btn btn-negative red text-white");
+                                $div.append("<button class='close' type='button' data-dismiss='alert'>&times;</button>");
+                                $div.show(1000).append("<p>" + json.message + "</p>").delay(10000).hide(1000);
+
+                                    $(this).children("input").val("");
+                                window.location.reload();
+
+                            }
+                            else
+                            {
+                                $div.addClass("red text-white ");
+                                $div.append("<button class='close' type='button' data-dismiss='alert'>&times;</button>");
+                                $div.show(1000).append("<p>" + json.message + "</p>").delay(10000).hide(1000);
+                            }
+                        },
+                        error: function (resultat, statut, erreur)
+                        {
+
+                            alert(erreur)
+                            $div.addClass("alert alert-danger alert-block alert-dismissable");
+                            $div.append("<button class='close' type='button' data-dismiss='alert'>&times;</button>");
+                            $div.show(1000).append("<p>" + statut + " :  " + erreur + "</p>").delay(10000).hide(1000);
+
+                        },
+                        complete: function (resultat, statut)
+                        {
+
+                            $("#load").hide();
+                        }
+                    });
+
+        });
+        
+</script>

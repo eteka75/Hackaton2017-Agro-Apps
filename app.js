@@ -25,7 +25,11 @@ phonon.options({
 var app = phonon.navigator();
 
 app.on({page: 'home', content: 'home.html'});
-app.on({page: 'pageadd', content: 'pageadd.html'});
+app.on({page: 'pageadd', content: 'pageadd.html'},function(){
+	
+		
+	
+});
 app.on({page: 'pageprod', content: 'pageprod.html'});
 app.on({page: 'pageprodfini', content: 'pageprodfini.html'});
 app.on({page: 'marche', content: 'marche.html'});
@@ -69,8 +73,8 @@ app.on({page: 'login', content: 'pagedialog.html'}, function(activity) {
 app.on({page: 'pageform', content: 'pageform.html'});
 app.on({page: 'pagefla', content: 'pagefla.html'});
 app.on({page: 'pagegrid', content: 'pagegrid.html'});
-
 app.on({page: 'pagelist', content: 'pagelist.html'});
+app.on({page: 'pageetapes', content: 'pageetapes.html'});
 app.on({page: 'pageaccordion', content: 'pageaccordion.html'});
 app.on({page: 'pagenotif', content: 'pagenotif.html', readyDelay: 500}, function(activity) {
 
