@@ -211,5 +211,12 @@ class GestionnaireProduitsFinis {
 
         return $query->fetchAll();
     }
+    function getAllProduitsById($id) {
+        $query = $this->dbb->prepare("select *  from produits_finis where id_pro=:id");
+        $query->bindValue(':id', $id,PDO::PARAM_INT);
+        $query->execute();
+
+        return $query->fetch();
+    }
 
 }

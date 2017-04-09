@@ -143,7 +143,7 @@ if(isset($racine))$r=$racine;
         });
         
         //ajout d'étapes à la préparation d'un produit
-          $("#form_ajout_etape").on('submit', function (e)
+        $("#form_ajout_etape").on('submit', function (e)
         {
             e.preventDefault();
             $data = "?" + $(this).serialize() + "&ajouter_etape=1";

@@ -2,65 +2,151 @@
     <header class="header-bar">
         <button class="btn icon icon-arrow-back pull-left" data-navigation="$previous-page"></button>
         <div class="center">
-            <h1 class="title">Tabs <span class="tab-number">1</span></h1>
+            <h1 class="title">Etapes da la recette</h1>
         </div>
     </header>
     <nav class="tabs header-tabs">
         <div class="tab-items">
-            <a class="tab-item active" data-tab="0"><i class="icon icon-edit"></i> Nouveau</a>
-            <a class="tab-item" data-tab="1"><i class="icon icon-star"></i> Mes recettes</a>
+            <a class="tab-item active" data-tab="0"><i class="icon icon-edit"></i> <span id="titrepage">Ajout des étapes</span> </a>
+            <!--<a href="#!pageadd#" class="tab-item" data-tab="1"><i class="icon icon-star"></i> Mes recettes</a>-->
         </div>
         <div class="tab-indicator"></div>
     </nav>
     <div class="content" data-tab-contents="true" data-disable-swipe="false" data-tab-default="1">
 
         <div class="tab-content">
-            <ul class="list">
-                <li class="divider">Les étapes de d'obtention du produit fini</li>
-            </ul>
+            <!--ul class="list">
+                <li class="divider" ></li>
+            </ul-->
+            <div class="padd-full" id="message_produit_fini"></div>
             <div class="padded-full">
-                <form method="POST" action="serveur/">
+                <div id="load" class="hidden"><img src="./images/load.gif"></div>
+                <div >
+                </div>
+                <form id="form_ajout_etape" method="POST" method="POST" action="serveur/ajax/requeteajax.php">
 
+                    <div class="form" id='form' >
+                        <div class="input-wrapper">
 
-                    <div class="input-wrapper">
-                        <p class='pad0 m0'><small class="text-muted ">Exemple: Transformation du citon en jus de fruit</small></p>
+                            <input class="with-label" type="text" name="nomprod"  readonly="readonly" id="nomprod" >
+                            <input type="hidden" name="produit_fini"   id="produit_fini" >
+                            <textarea  name="detail" required="required" id="detail"  placeholder="Détail sur l'étape"></textarea>
+                        </div>
+                        <div class="input-wrapper">
+                            <input type="file" name="image" class="with-label" accept="image/*" id="image" >
 
-                        <input class="with-label" name="nom_pro" readonly="true" id="nom_pro" placeholder="Le nom du produit fini à fabriquer" id="input-1">
-                        <textarea  name="detail" required="required" id="detail"  placeholder="Détail sur l'étape"></textarea>
-                        <input type="file" name="image" accept="image/*" id="image" >
-                    </div>
-                    <div class="input-wrapper">
-                        
-                    </div>
-                    <div >
-                        <button class="btn fit-parent primary" id="send-form1">Ajouter</button>
+                        </div>
+                        <div class="input-wrapper">
+                            <button class="btn fit-parent primary" id="send-form1">Ajouter</button>
+                        </div>
+
                     </div>
                 </form>
+                <ul class="collection" id="collection">
+
+                </ul>
             </div>
         </div>
         <div class="tab-content">
             <div class="padded-">
-                <ul class="list">
-                    <li class="divider">Liste de mes recettes</li>
-                    <li>
-                        <a href="#action" class="pull-left icon icon-edit"></a>
-                        <span class="padded-list">Item</span>
-                    </li>
-                    <li>
-                        <a href="#action" class="pull-left">Text</a>
-                        <span class="padded-list">Item</span>
-                    </li>
-                    <li>
-                        <a href="#action" class="pull-left icon icon-edit"></a>
-                        <a href="#item" class="padded-list">Link</a>
-                    </li>
-                    <li>
-                        <a href="#action" class="pull-left">Text</a>
-                        <a href="#item" class="padded-list">Link</a>
-                    </li>
-                </ul>
+
             </div>
         </div>
     </div>
 
 </pageetapes>
+<script>
+   
+    $(function () {
+        function recupererEtapes(idproduit) {
+            alert('')
+            $.getJSON("serveur/ajax/getdetail_etape_produit_fini.php", {id_pro: idproduit}, function (json) {
+                
+                    var titre=$("#nomprod").val();
+                for (var i = 0, max = json.length; i < max; i++) {
+                    //json[i].images
+                    var detail=json[i].detail;
+                    var image=json[i].images!=''?'<i class="icon icon-edit"></i>':'<img src="'+json[i].images'" class="circle">'
+                    var text = '<li class="collection-item avatar">';
+                    text += image+'" ';
+                    text += ' <span class="title">'+titre+'</span>';
+                    text += ' <p class="muted">'+detail+'</p>';
+                    text += '</li>';
+                    $('#collection').append(text);
+                }
+            });
+
+        }
+        recupererEtapes(1);
+        var hrefd = document.location, tabrecup = hrefd.toString().split("#");
+        var proid = tabrecup[2];
+        $.getJSON("serveur/ajax/get_produits_by_id.php", {idprod: proid}, function (json) {
+            if (json.nom_pro !== undefined) {
+                $('#titrepage').html("Etapes d'obtention du produit : " + json.nom_pro);
+                $('#nomprod').val(json.nom_pro);
+                $('#produit_fini').val(json.id_pro);
+            } else {
+                $('#titrepage').html("<div class='alert red text-white'>Le produit entré n'existe pas <br><a href='#!home'>Retour à l'accueil</a></div>");
+            }
+        });
+    });
+    $("#form_ajout_etape").on('submit', function (e)
+    {
+        e.preventDefault();
+        $data = "?" + $(this).serialize() + "&ajouter_etape=1";
+
+        $div = $(this).parent().find("#message_ajout_etape").empty();
+
+        $("#load").show();
+
+        $formData = new FormData($(this)[0]);
+
+        $.ajax(
+                {
+                    url: $(this).attr("action") + $data,
+                    type: "POST",
+                    data: $formData,
+                    dataType: 'json',
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (json)
+                    {
+                        // alert(json);
+                        if (json.codeErreur === 0)
+                        {
+                            $div.addClass("alert alert-success alert-block alert-dismissable ");
+                            $div.append("<button class='close' type='button' data-dismiss='alert'>&times;</button>");
+                            $div.show(1000).append("<p>" + json.message + "</p>").delay(10000).hide(1000);
+
+                            $(this).children("input").val("");
+                            window.location.reload();
+                            recupererEtapes($('#produit_fini').val());
+
+                        } else
+                        {
+                            $div.addClass("alert alert-danger alert-block alert-dismissable ");
+                            $div.append("<button class='close' type='button' data-dismiss='alert'>&times;</button>");
+                            $div.show(1000).append("<p>" + json.message + "</p>").delay(10000).hide(1000);
+                        }
+                    },
+                    error: function (resultat, statut, erreur)
+                    {
+
+
+                        $div.addClass("alert alert-danger alert-block alert-dismissable");
+                        $div.append("<button class='close' type='button' data-dismiss='alert'>&times;</button>");
+                        $div.show(1000).append("<p>" + statut + " :  " + erreur + "</p>").delay(10000).hide(1000);
+
+                    },
+                    complete: function (resultat, statut)
+                    {
+
+                        $("#load").hide();
+                    }
+                });
+
+
+    });
+</script>
