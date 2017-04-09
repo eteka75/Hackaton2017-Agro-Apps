@@ -8,7 +8,6 @@ if (isset($racine))
 include $r . "config/config.php";
 include $r . "config/connexion.php";
 
-
 $gestionnaire_produit_fini = new GestionnaireProduitsFinis($dbb);
 $gestionnaire_matiere_premiere = new GestionnaireMatierePremiere($dbb);
 $gestionnaire_etape = new GestionnaireEtapesCompositions($dbb);
@@ -16,12 +15,13 @@ $gestionnaire_etape = new GestionnaireEtapesCompositions($dbb);
 $list_matieres = $gestionnaire_matiere_premiere->getAllMatieresPremieres();
 
 
+$idprod=0;
 $total_produit = $gestionnaire_produit_fini->getTotalProduit();
 
 if (isset($_GET['ajouter_produit'])) {
-    if (!empty($_POST['nom_pro']) && !empty($_POST['description']) && !empty($_POST['conditionnement']) && !empty($_POST['conservation']) && !empty($_POST['matiere_premiere']) && !empty($_POST['materiels_utilises']) && !empty($_POST['ingredients'])) {
+    if (!empty($_POST['nom_pro']) &&!empty($_POST['devise']) && !empty($_POST['description'])  && !empty($_POST['matiere_premiere']) && !empty($_POST['materiels_utilises']) && !empty($_POST['ingredients'])) {
         $_SESSION['data-produit-fini'] = $_POST;
-
+//print_r($_POST);
         
         $nom_image = "";
         if ($_FILES["image"]["error"] == UPLOAD_ERR_OK) {
@@ -62,9 +62,9 @@ if (isset($_GET['ajouter_produit'])) {
 
         $produits_finis = new Produits_finis($donneesProduits);
 
-        $count = $gestionnaire_produit_fini->EnregistrerProduitFini($produits_finis);
+        $_SESSION['id_save_prod']= $idprod = $gestionnaire_produit_fini->EnregistrerProduitFini($produits_finis);
 
-        if (!empty($count)) {
+        if (!empty($idprod)) {
             $_SESSION['data-produit-fini'] = null;
 
             $message = "Enregistrement effectué...";
@@ -90,7 +90,8 @@ if (isset($_GET['ajouter_produit'])) {
 
     $donneesAjax = array(
         "message" => $message,
-        "codeErreur" => $codeErreur
+        "codeErreur" => $codeErreur,
+        "idprod" => $idprod
     );
 
     echo json_encode($donneesAjax);
@@ -119,7 +120,7 @@ if (isset($_GET['ajouter_matiere_premiere'])) {
             //concatenation des noms d'image
             $nom_image = $name . "_" . $total_produit['total_mat'] . "." . $extension_upload;
 
-            move_uploaded_file($tmp_name, $r . 'images/' . $nom_image);
+            move_uploaded_file($tmp_name, $r . 'uploads/' . $nom_image);
         } else {
             $message = "Le fichier est trop volumineux...";
 
@@ -195,7 +196,7 @@ if (isset($_GET['ajouter_etape'])) {
             //concatenation des noms d'image
             $nom_image = $name . "_" . $total_etape['total_etape'] . "." . $extension_upload;
 
-            move_uploaded_file($tmp_name, $r . 'images/' . $nom_image);
+            move_uploaded_file($tmp_name, $r . 'uploads/' . $nom_image);
         } else {
             $message = "Le fichier est trop volumineux...";
 

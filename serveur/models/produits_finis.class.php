@@ -12,22 +12,22 @@
  * @author Francis
  */
 class Produits_finis {
+
     //put your code here
-    
-    protected  $id_pro;
+
+    protected $id_pro;
     protected $nom_produit_fini;
     protected $image_pro;
     protected $description;
     protected $materiels_utilises;
-    protected  $ingredients;
+    protected $ingredients;
     protected $conditions;
     protected $conservation;
-    protected  $donnees_tech;
+    protected $donnees_tech;
     protected $cout;
     protected $devise;
     protected $id_matiere_premiere;
-    
-    
+
     function getDevise() {
         return $this->devise;
     }
@@ -36,7 +36,7 @@ class Produits_finis {
         $this->devise = $devise;
     }
 
-        function getDescription() {
+    function getDescription() {
         return $this->description;
     }
 
@@ -44,7 +44,6 @@ class Produits_finis {
         $this->description = $description;
     }
 
-        
     function getId_pro() {
         return $this->id_pro;
     }
@@ -125,7 +124,7 @@ class Produits_finis {
         $this->id_matiere_premiere = $id_matiere_premiere;
     }
 
-            function __construct($donnees = array()) {
+    function __construct($donnees = array()) {
 
         foreach ($donnees as $key => $value) {
             $method = "set" . ucfirst($key);
@@ -135,89 +134,82 @@ class Produits_finis {
             }
         }
     }
+
 }
 
+class GestionnaireProduitsFinis {
 
-class GestionnaireProduitsFinis
-{
-    protected $dbb; 
-    
+    protected $dbb;
+
     function __construct(PDO $dbb) {
         $this->dbb = $dbb;
     }
-    
-    function getDetailsProduitsFinis($id_pro)
-    {
+
+    function getDetailsProduitsFinis($id_pro) {
         $query = $this->dbb->prepare("select * from produits_finis where id_pro=:id_pro");
-        
-        $query->bindValue(":id_pro",$id_pro,PDO::PARAM_INT);
+
+        $query->bindValue(":id_pro", $id_pro, PDO::PARAM_INT);
         $query->execute();
-        
+
         return $query->fetch();
     }
-    
-    function getDetailsSurComposition($id_pro)
-    {
-         $query = $this->dbb->prepare("select * from mode_operatoire where id_pro=:id_pro");
-        
-        $query->bindValue(":id_pro",$id_pro,PDO::PARAM_INT);
+
+    function getDetailsSurComposition($id_pro) {
+        $query = $this->dbb->prepare("select * from mode_operatoire where id_pro=:id_pro");
+
+        $query->bindValue(":id_pro", $id_pro, PDO::PARAM_INT);
         $query->execute();
-        
+
         return $query->fetchAll();
     }
-    
-    function getMeilleursProduits($number=4){
-        
+
+    function getMeilleursProduits($number = 4) {
+
         $query = $this->dbb->prepare("select * from produits_finis order by id_pro desc limit 0,:number");
-       $query->bindValue(":number", $number, PDO::PARAM_INT);
-       $query->execute();
+        $query->bindValue(":number", $number, PDO::PARAM_INT);
+        $query->execute();
         return $query->fetchAll();
     }
-    
-    
-    function EnregistrerProduitFini(Produits_finis $produit){
-        
+
+    function EnregistrerProduitFini(Produits_finis $produit) {
+
         $query = $this->dbb->prepare("INSERT INTO `produits_finis`( `nom_pro`, `image_pro`, `description`, `materiels`, `ingredients`, `condition`, `conservation`, `donnee_tech`, `montant`, `devise`, `id_mat`) VALUES (:nom,:image,:desc,:materiel,:ingredient,:condition,:conservation,:donnee_tech,:montant,:devise,:id_mat) ");
-        
-               
-        
-                $query->bindValue(":nom", $produit->getNom_produit_fini(), PDO::PARAM_STR);
-                $query->bindValue(":image", $produit->getImage_pro(), PDO::PARAM_STR);
-                $query->bindValue(":desc", $produit->getDescription(), PDO::PARAM_STR);
-                $query->bindValue(":materiel", $produit->getMateriels_utilises(), PDO::PARAM_STR);
-                $query->bindValue(":ingredient",$produit->getIngredients(), PDO::PARAM_STR);
-                $query->bindValue(":condition", $produit->getConditions(), PDO::PARAM_STR);
-                $query->bindValue(":conservation", $produit->getConservation(), PDO::PARAM_STR);
-                $query->bindValue(":donnee_tech", $produit->getDonnees_tech(), PDO::PARAM_STR);
-                $query->bindValue(":montant", $produit->getCout());
-                $query->bindValue(":devise", $produit->getDevise(), PDO::PARAM_STR);
-                $query->bindValue(":id_mat", $produit->getId_matiere_premiere(), PDO::PARAM_STR);
-                
-                
-                $query->execute();
-                
-                
-                return $query->rowCount();
-    }
-    
-    function getTotalProduit()
-    {
-        $query = $this->dbb->prepare("select count(*) as total_produit from produits_finis");
-        
+
+
+
+        $query->bindValue(":nom", $produit->getNom_produit_fini(), PDO::PARAM_STR);
+        $query->bindValue(":image", $produit->getImage_pro(), PDO::PARAM_STR);
+        $query->bindValue(":desc", $produit->getDescription(), PDO::PARAM_STR);
+        $query->bindValue(":materiel", $produit->getMateriels_utilises(), PDO::PARAM_STR);
+        $query->bindValue(":ingredient", $produit->getIngredients(), PDO::PARAM_STR);
+        $query->bindValue(":condition", $produit->getConditions(), PDO::PARAM_STR);
+        $query->bindValue(":conservation", $produit->getConservation(), PDO::PARAM_STR);
+        $query->bindValue(":donnee_tech", $produit->getDonnees_tech(), PDO::PARAM_STR);
+        $query->bindValue(":montant", $produit->getCout());
+        $query->bindValue(":devise", $produit->getDevise(), PDO::PARAM_STR);
+        $query->bindValue(":id_mat", $produit->getId_matiere_premiere(), PDO::PARAM_STR);
+
+
         $query->execute();
-        
+
+
+        return $this->dbb->lastInsertId();
+    }
+
+    function getTotalProduit() {
+        $query = $this->dbb->prepare("select count(*) as total_produit from produits_finis");
+
+        $query->execute();
+
         return $query->fetch();
     }
-    
-    function getAllProduitsFinis()
-    {
+
+    function getAllProduitsFinis() {
         $query = $this->dbb->prepare("select *  from produits_finis");
-        
+
         $query->execute();
-        
+
         return $query->fetchAll();
     }
-    
-    
 
 }

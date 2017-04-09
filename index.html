@@ -220,7 +220,11 @@
                 -webkit-font-smoothing: antialiased;
                 content: '\f216 ';
             }
-
+            .alert{
+                padding: 10px;
+                background: #f5f5f5;
+                border:1px solid #ddd;
+            }
             .code-wrapper.active::before {
                 content: '\f207 ';
             }
@@ -235,19 +239,7 @@
                 text-decoration: underline;
             }
 
-            .code-wrapper .code {
-                opacity: 0;
-                margin-top: -20px;
-                height: 0;
-                overflow: hidden;
-                position: absolute;
-                transition: 0.1s all ease-in-out;
-                z-index: 9999999999;
-            }
-
-            .code-wrapper.code-wrapper-last .code {
-                position: relative;
-            }
+           
             .links{
                 display:none;
             }
