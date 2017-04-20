@@ -11,14 +11,33 @@
         <link rel="stylesheet" href="./css/materialize.min.css"/>
         <link rel="stylesheet" href="./dist/swiper/swiper.min.css"/>
         <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" >
-        <title>Agro Transform</title>
+        <title>Agro Connect</title>
         <link rel="stylesheet" href="./css/jquery-ui.css"/>
         <link rel="stylesheet" href="./css/jquery-ui.theme.css"/>
         <script src="js/jquery-2.1.3.min.js" ></script>
-        <!--script src="https://code.jquery.com/jquery-3.2.1.min.js" ></script>
-        <script>if (!window.jQuery) { document.write('<script src="js/jquery.min.js"><\/script>');}</script-->
+        <!--<script src="https://code.jquery.com/jquery-3.2.1.min.js" ></script>-->
+        <!--script>if (!window.jQuery) {
+                document.write('<script src="js/jquery.min.js"><\/script>');
+            }
+        </script-->
         <title>Kitchen Sink</title>
+        <script>
+
+
+            var AppUrl = {
+                'images_uploads': './serveur/uploads/',
+                'SaveProduitFini': './serveur/ajax/requeteajax.php',
+                'get_produits_by_id': './serveur/ajax/get_produits_by_id.php',
+                'getdetail_etape_produit_fini': './serveur/ajax/getdetail_etape_produit_fini.php',
+                'getlist_produits_finis': './serveur/ajax/getlist_produits_finis.php'
+            };
+        </script>
         <style>
+            .color1{
+                color: #28e503
+            }
+            .color2{color:#E72817}
+            .color3{color:#18A1FE}
             .app-page,body{
                 background:#fefefe;
                 font-style:normal;
@@ -105,7 +124,6 @@
 
             }
             .block-image{
-                //position:absolute;
                 height:100%;
             }
             .mcard{overflow:hidden;}
@@ -148,7 +166,39 @@
                 border-top: solid 2px #bbb;
                 padding-top: 30px;
             }
+            #swiper-slide1,#swiper-slide2,#swiper-slide4{
+                background-size: auto 100%;
+            }
+            #swiper-slide1{
+                background: url('images/slides/agro-slide-1.png') center center no-repeat;
 
+            }
+            #swiper-slide2{
+                background: url('images/slides/agro-slide-2.png') center center no-repeat;
+
+            }
+            #swiper-slide3{
+                background: url('images/slides/agro-slide-3.png') center center no-repeat;
+
+            }
+            .swiper-slide h3,.swiper-slide h4{
+                color:#ffffff;
+                font-size: 20px;
+                margin: 5px 0;
+                padding: 0;
+                text-shadow:0 1px 1px #111111;
+            }
+            .swiper-slide .caption {
+                padding-top: 60px;
+                background: linear-gradient(to bottom, rgba(30,87,153,0) 0%,rgba(0,0,0,1) 100%);
+                height: 140px;
+                overflow: hidden;
+            }
+            .swiper-slide .caption p{
+                color:#3598db;
+                font-weight: 800;
+                font-size: 85%;
+            }
             .text-muted,.muted {
                 color: #777;
                 margin: 0 0 5px;
@@ -205,7 +255,7 @@
                 padding-bottom: 30px;
                 padding-top: 15px;
             }
-            .text-white{color:#fff;}
+            .text-white{color:#fff !important;}
             .code-wrapper::before {
                 color: #1B5E20;
                 font-family: "Ionicons";
@@ -239,7 +289,7 @@
                 text-decoration: underline;
             }
 
-           
+
             .links{
                 display:none;
             }
@@ -265,98 +315,6 @@
         </style>
     </head>
     <body>
-
-        <!-- Popovers -->
-
-        <!-- Popover example for the header bar -->
-        <div class="popover" id="my-popover">
-            <ul class="list">
-                <li><a class="padded-list">Item</a></li>
-                <li><a class="padded-list">Help & Feedback</a></li>
-                <li><a class="padded-list">Settings</a></li>
-                <li><a class="padded-list">Sign out</a></li>
-            </ul>
-        </div>
-
-        <!-- Popover example as select box -->
-        <div class="popover" id="btn-popover">
-            <ul class="list">
-                <li><a class="padded-list">Item 1</a></li>
-                <li><a class="padded-list">Item 2</a></li>
-                <li><a class="padded-list">Item 3</a></li>
-                <li><a class="padded-list">Item 4</a></li>
-            </ul>
-        </div>
-
-        <!-- Side Panel -->
-        <div class="side-panel side-panel-left" data-expose-aside="left" data-disable="right" data-page="pagesidepanel" id="side-panel-example">
-            <header class="header-bar">
-                <button class="btn pull-right icon icon-close show-for-phone-only" data-side-panel-close="true"></button>
-                <div class="pull-left">
-                    <h1 class="title">Side Panel</h1>
-                </div>
-            </header>
-            <div class="content">
-                <ul class="list">
-                    <li><a href="#!profil" class="padded-list">Profile</a></li>
-                    <li><a href="#!about" class="padded-list">About</a></li>
-                    <li><a class="padded-list">Settings</a></li>
-                    <li><a class="padded-list">Login</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Small Panel (looks like an action sheet) -->
-        <div id="action-sheet" class="panel">
-            <header class="header-bar">
-                <button class="btn pull-right icon icon-close" data-panel-close="true"></button>
-                <div class="center">
-                    <h1 class="title">Panel</h1>
-                </div>
-            </header>
-
-            <div class="content">
-                <p class="padded-full">The contents of my panel go here. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut.</p>
-            </div>
-        </div>
-
-        <!-- Full Panel -->
-        <div id="full-panel-example" class="panel-full">
-            <header class="header-bar">
-                <button class="btn pull-right icon icon-close" data-panel-close="true"></button>
-                <div class="center">
-                    <h1 class="title">Panel</h1>
-                </div>
-            </header>
-
-            <div class="content">
-                <p class="padded-full">The contents of my panel go here. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut.</p>
-            </div>
-        </div>
-
-        <!-- Custom Dialog -->
-        <div class="dialog" data-cancelable="false" id="custom-dialog">
-            <div class="content">
-                <div class="padded-full">
-                    <h3>Hey! <i class="icon icon-info-outline"></i></h3>
-                    <p>Do you like chocolate?</p>
-                </div>
-            </div>
-            <ul class="buttons">
-                <li><a class="btn btn-flat primary btn-confirm" data-dialog-close="true">YES</a></li>
-                <li><a class="btn btn-flat negative btn-cancel" data-dialog-close="true">NO</a></li>
-            </ul>
-        </div>
-
-        <!-- Custom notification -->
-        <div class="notification" id="notif-example" data-timeout="5000">
-            <div class="progress">
-                <div class="determinate"></div>
-            </div>
-
-            This is a custom notification! <i class="icon icon-edit"></i>
-            <button class="btn pull-right" data-hide-notif="true">Cancel</button>
-        </div>
 
     <home data-page="true"></home>
     <pageadd data-page="true"></pageadd>
@@ -394,31 +352,31 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
     <script src="./dist/js/phonon.js"></script>
-    <script src="./dist/swiper/swiper.min.sjs"></script>
+    <script src="./dist/swiper/swiper.min.js"></script>
     <script src="./js/jquery-ui.js"></script>
     <script src="app.js"></script>
 
     <script>
 
-        var AppFn = function () {
-            return{
-                a: function () {
-                    alert('');
-                },
-                initNav: function () {
-                    $(".button-collapse").sideNav();
-                },
-                starCarousel: function () {
-                    $('.slider').slider();
-                    //$('.carousel.carousel-slider').carousel({fullWidth: true});
-                }
+            var AppFn = function () {
+                return{
+                    a: function () {
+                        alert('');
+                    },
+                    initNav: function () {
+                        $(".button-collapse").sideNav();
+                    },
+                    starCarousel: function () {
+                        $('.slider').slider();
+                        //$('.carousel.carousel-slider').carousel({fullWidth: true});
+                    }
 
+                };
             };
-        };
-        $(document).ready(function () {
-            AppFn().initNav();
-            AppFn().starCarousel();
-        });
+            $(document).ready(function () {
+                // AppFn().initNav();
+                AppFn().starCarousel();
+            });
     </script>
     <!-- Swiper JS autocompletion_matiere_premiere -->
 
@@ -427,26 +385,26 @@
     <script src="./js/jquery-2.1.3.min.js" ></script>
     <script src="./js/jquery-ui.js"></script>
     <script>
-        $(function () {
-            $('#matiere_prem').autocomplete({
-                source: './serveur/ajax/autocompletion_matiere_premiere.php',
-                select: function (event, ui) {
-                    event.preventDefault();
-                    $('#matiere_prem').val(ui.item.label); //ui.item is your object from the array
-                    $("#matiere_premiere").val(ui.item.id);
-                    return false;
-                    /*$id_actu = ui.item.value.split("-", 1);
-                     $idOnglet = $(this).attr("data-value",$id_actu);
-                     var dval=ui.item.value.split("-")[1];
-                     $('#matiere_premiere').val(dval);*/
-                },
-                minLength: 1,
-                position: {
-                    my: 'top',
-                    at: 'bottom'
-                },
+            $(function () {
+                $('#matiere_prem').autocomplete({
+                    source: './serveur/ajax/autocompletion_matiere_premiere.php',
+                    select: function (event, ui) {
+                        event.preventDefault();
+                        $('#matiere_prem').val(ui.item.label); //ui.item is your object from the array
+                        $("#matiere_premiere").val(ui.item.id);
+                        return false;
+                        /*$id_actu = ui.item.value.split("-", 1);
+                         $idOnglet = $(this).attr("data-value",$id_actu);
+                         var dval=ui.item.value.split("-")[1];
+                         $('#matiere_premiere').val(dval);*/
+                    },
+                    minLength: 1,
+                    position: {
+                        my: 'top',
+                        at: 'bottom'
+                    },
+                });
             });
-        });
     </script>
 
 </body>

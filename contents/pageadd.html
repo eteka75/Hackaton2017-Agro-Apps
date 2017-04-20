@@ -2,7 +2,7 @@
     <header class="header-bar">
         <button class="btn icon icon-arrow-back pull-left" data-navigation="$previous-page"></button>
         <div class="center">
-            <h1 class="title">Ajouter une recette <span class="tab-number">1</span></h1>
+            <h1 class="title">Ajouter une recette <span class="tab-number">Etape 1</span></h1>
         </div>
     </header>
     <nav class="tabs header-tabs">
@@ -12,13 +12,13 @@
         </div>
         <div class="tab-indicator"></div>
     </nav>
-    <button class="floating-action padded-full icon icon-edit active primary floating-action-bottom"></button>
-    <div class="content" data-tab-contents="true" data-disable-swipe="false" data-tab-default="1">
+   <div class="content" data-tab-contents="true" data-disable-swipe="false" data-tab-default="1">
 
         <div class="tab-content">
             <ul class="list">
                 <li class="divider">Nouvelle recette</li>
             </ul>
+           
             <div id="load" class="hidden"><img src="./images/load.gif"></div>
             <div class="padded-full">
                 <div class="padd-full" id="message_produit_fini"></div>
@@ -89,6 +89,7 @@
 
 </pageadd>
 <script>
+    //alert(AppUrl.SaveProduitFini)
     $("#form_produit_fini").on('submit', function (e)
     {
         e.preventDefault();
@@ -100,11 +101,11 @@
 
         $formData = new FormData($(this)[0]);
 
-        window.location.href = './index.html#!pageetapes&_idprod=' + json.idprod;
+      //  window.location.href = './index.html#!pageetapes&#' + json.idprod;
 
         $.ajax(
                 {
-                    url: $(this).attr("action") + $data,
+                    url:AppUrl.SaveProduitFini + $data,
                     type: "POST",
                     data: $formData,
                     dataType: 'json',
@@ -122,7 +123,7 @@
                             $div.show(1000).append("<p>" + json.message + "</p>").delay(10000).hide(1000);
 
                             $(this).children("input").val("");
-                            window.location.href = './index.html#!pageetapes&_idprod=' + json.idprod;
+                            window.location.href = './index.html#!pageetapes#' + json.idprod;
 
                         } else
                         {

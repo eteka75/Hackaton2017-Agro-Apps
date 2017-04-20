@@ -1,114 +1,140 @@
 <pageprod class="app-page">
     <header class="header-bar">
         <button class="btn icon icon-arrow-back pull-left" data-navigation="$previous-page"></button>
-        <div class="center">
-            <h1 class="title">Lists</h1>
-        </div>
+
+        <a class="btn pull-left icon icon-close"></a>
+        <input type="text" class=" pull-right search-input" placeholder="Rechercher un produit">
+        <a class="btn pull-right icon icon-check"></a>
     </header>
     <div class="content">
-        <ul class="list">
-            <li class="divider">Basic</li>
-            <li class="padded-list">Item</li>
-            <li class="padded-list">Item</li>
-        </ul>
+    <ul class="list">
+        <li class="divider">Produits</li>
+    </ul>
 
-        <ul class="list">
-            <li class="divider">Links</li>
-            <li><a href="#item" class="padded-list">Link</a></li>
-            <li><a href="#item" class="padded-list">Link</a></li>
-            <li><a href="#item" class="padded-list">Link</a></li>
-        </ul>
-
-        <ul class="list">
-            <li class="divider">Left action</li>
-            <li>
-                <a href="#action" class="pull-left icon icon-edit"></a>
-                <span class="padded-list">Item</span>
-            </li>
-            <li>
-                <a href="#action" class="pull-left">Text</a>
-                <span class="padded-list">Item</span>
-            </li>
-        </ul>
-
-        <ul class="list">
-            <li class="divider">Left action with link</li>
-            <li>
-                <a href="#action" class="pull-left icon icon-edit"></a>
-                <a href="#item" class="padded-list">Link</a>
-            </li>
-            <li>
-                <a href="#action" class="pull-left">Text</a>
-                <a href="#item" class="padded-list">Link</a>
-            </li>
-        </ul>
-
-        <ul class="list">
-            <li class="divider">Right action</li>
-            <li>
-                <a href="#action" class="pull-right icon icon-edit"></a>
-                <span class="padded-list">Item</span>
-            </li>
-            <li>
-                <a href="#action" class="pull-right">Text</a>
-                <span class="padded-list">Item</span>
-            </li>
-        </ul>
-
-        <ul class="list">
-            <li class="divider">Right action with link</li>
-            <li>
-                <a href="#action" class="pull-right icon icon-edit"></a>
-                <a href="#item" class="padded-list">Link</a>
-            </li>
-            <li>
-                <a href="#action" class="pull-right">Text</a>
-                <a href="#item" class="padded-list">Link</a>
-            </li>
-        </ul>
-
-        <ul class="list">
-            <li class="divider">Left and right actions</li>
-            <li class="item-expanded">
-                <a href="#action" class="pull-right icon icon-edit"></a>
-                <a href="#action" class="pull-left icon icon-edit"></a>
-                <div class="item-content">
-                    <span class="title">Item</span>
-                    <span class="body">Small text</span>
-                </div>
-            </li>
-            <li class="item-expanded">
-                <a href="#action" class="pull-right">Text</a>
-                <a href="#action" class="pull-left">Text</a>
-                <div class="item-content">
-                    <span class="title">Item</span>
-                    <span class="body">Small text</span>
-                </div>
-            </li>
-        </ul>
-
-        <ul class="list">
-            <li class="divider">Left and right actions with link</li>
-            <li class="item-expanded">
-                <a href="#action" class="pull-right icon icon-edit"></a>
-                <a href="#action" class="pull-left icon icon-edit"></a>
-                <a href="#item">
-                    <div class="item-content">
-                        <span class="title">Link</span>
-                        <span class="body">Small text</span>
+        <div class="container-fluid">
+            <div class="row" id="posts">
+                <div class="col s12 m6 l4">
+                    <div class="card">
+                        <div class="card-image">
+                            <img src="./images/slides/agro-slide-1.png">
+                            <span class="card-title">Card Title</span>
+                        </div>
+                        <div class="card-content">
+                            <p>I am a very simple card. I am good at containing small bits of information.
+                                I am convenient because I require little markup to use effectively.</p>
+                        </div>
+                        <div class="card-action">
+                            <a href="#">Plus d'information</a>
+                        </div>
                     </div>
-                </a>
-            </li>
-            <li class="item-expanded">
-                <a href="#action" class="pull-right">Text</a>
-                <a href="#action" class="pull-left">Text</a>
-                <a href="#item">
-                    <div class="item-content">
-                        <span class="title">Link</span>
-                        <span class="body">Small text</span>
+                </div>
+                <div class="col s12 m6 l4">
+                    <div class="card">
+                        <div class="card-image">
+                            <img src="./images/slides/agro-slide-2.png">
+                            <span class="card-title">Card Title</span>
+                        </div>
+                        <div class="card-content">
+                            <p>I am a very simple card. I am good at containing small bits of information.
+                                I am convenient because I require little markup to use effectively.</p>
+                        </div>
+                        <div class="card-action">
+                            <a href="#">Plus d'information</a>
+                        </div>
                     </div>
-                </a>
-            </li>
-        </ul>
-    </div>
+                </div>
+                <div class="col s12 m6 l4">
+                    <div class="card">
+                        <div class="card-image">
+                            <img src="./images/slides/agro-slide-3.png">
+                            <span class="card-title">Card Title</span>
+                        </div>
+                        <div class="card-content">
+                            <p>I am a very simple card. I am good at containing small bits of information.
+                                I am convenient because I require little markup to use effectively.</p>
+                        </div>
+                        <div class="card-action">
+                            <a href="#">Plus d'information</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m6 l4">
+                    <div class="card">
+                        <div class="card-image">
+                            <img src="./images/slides/agro-slide-3.png">
+                            <span class="card-title">Card Title</span>
+                        </div>
+                        <div class="card-content">
+                            <p>I am a very simple card. I am good at containing small bits of information.
+                                I am convenient because I require little markup to use effectively.</p>
+                        </div>
+                        <div class="card-action">
+                            <a href="#">Plus d'information</a>
+                        </div>
+                    </div>
+                </div><div class="col s12 m6 l4">
+                    <div class="card">
+                        <div class="card-image">
+                            <img src="./images/slides/agro-slide-1.png">
+                            <span class="card-title">Card Title</span>
+                        </div>
+                        <div class="card-content">
+                            <p>I am a very simple card. I am good at containing small bits of information.
+                                I am convenient because I require little markup to use effectively.</p>
+                        </div>
+                        <div class="card-action">
+                            <a href="#">Plus d'information</a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col s12 text-center center">
+                        <div id="loading" class="hidden">
+                            <img src="images/load.gif" height="45px" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
 </pageprod>
+<script>
+    $(document).ready(function () {
+        var win = $(window);
+
+        // Each time the user scrolls
+
+        $.ajax({
+            url: AppUrl.getlist_produits_finis,
+            dataType: 'html',
+            type: "GET",
+            data: 'page=1&number=5',
+            success: function (json) {
+                $('#posts').append("kj,kkjkj");
+                $('#loading').hide();
+            }
+        });
+        win.scroll(function () {
+
+            // End of the document reached?
+            var h = $(document).height() - win.height();
+            var top = win.scrollTop();
+            if (h === top) {
+                $('#loading').show();
+                alert(AppUrl.getlist_produits_finis)
+                $.ajax({
+                    url: AppUrl.getlist_produits_finis,
+                    dataType: 'json',
+                    type: "GET",
+                    data: 'page=1&number=5',
+                    success: function (json) {
+                        $('#posts').append(json);
+                        $('#loading').hide();
+                    }
+                });
+            }
+        });
+    });
+</script>

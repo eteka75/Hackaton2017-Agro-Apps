@@ -27,17 +27,27 @@ var app = phonon.navigator();
 app.on({page: 'home', content: 'home.html'}, function (activity) {
     activity.onCreate(function () {
 
-        document.querySelector('#alert').on('tap', function () {
-            phonon.alert('Agro Connect', 'Agro connect\n HACKATON \n App Challenge 2017 &copy; Tous droits réservés');
-        });
+        /* document.querySelector('#alert').on('tap', function () {
+         phonon.alert("Application d'aide à la transformation des matière premi&egrave;res<br> HACKATON <br>App Challenge 2017 &copy; Tous droits r&eacute;serv&eacute;", 'Agro Connect');
+         });
+         document.querySelector('#show-indicator').on('tap', function () {
+         var indicator = phonon.indicator('Please wait 3 seconds', false);
+         window.setTimeout(function () {
+         indicator.close();
+         }, 3000);
+         });*/
     });
 });
-app.on({page: 'pageadd', content: 'pageadd.html'}, function () {
-
-
-
+app.on({page: 'pageadd', content: 'pageadd.html'}, function (activity) {
+    activity.onCreate(function () {
+        //confirm = phonon.confirm('Example', 'Hello');
+    });
 });
-app.on({page: 'pageprod', content: 'pageprod.html'});
+app.on({page: 'pageprod', content: 'pageprod.html'}, function (activity) {
+    activity.onCreate(function () {
+        //confirm = phonon.confirm('Example', 'Hello');
+    });
+});
 app.on({page: 'pageprodfini', content: 'pageprodfini.html'});
 app.on({page: 'marche', content: 'marche.html'});
 app.on({page: 'login', content: 'pagedialog.html'}, function (activity) {
@@ -47,7 +57,6 @@ app.on({page: 'login', content: 'pagedialog.html'}, function (activity) {
         document.querySelector('#show-alert').on('tap', function () {
             phonon.alert('Example', 'Hello');
         });
-
         document.querySelector('#show-confirm').on('tap', function () {
             var confirm = phonon.confirm('Example', 'Hello');
             confirm.on('confirm', function () {
@@ -57,7 +66,6 @@ app.on({page: 'login', content: 'pagedialog.html'}, function (activity) {
                 phonon.alert('Canceled!');
             });
         });
-
         document.querySelector('#show-prompt').on('tap', function () {
             var prompt = phonon.prompt('Example', 'Hello');
             prompt.on('confirm', function (value) {
@@ -67,7 +75,6 @@ app.on({page: 'login', content: 'pagedialog.html'}, function (activity) {
                 phonon.alert('Prompt Canceled');
             });
         });
-
         document.querySelector('#show-indicator').on('tap', function () {
             var indicator = phonon.indicator('Please wait 3 seconds', false);
             window.setTimeout(function () {
@@ -76,7 +83,6 @@ app.on({page: 'login', content: 'pagedialog.html'}, function (activity) {
         });
     });
 });
-
 app.on({page: 'pageform', content: 'pageform.html'});
 app.on({page: 'pagefla', content: 'pagefla.html'});
 app.on({page: 'pagegrid', content: 'pagegrid.html'});
@@ -90,23 +96,18 @@ app.on({page: 'pagenotif', content: 'pagenotif.html', readyDelay: 500}, function
         document.querySelector('#show-auto-notif').on('tap', function () {
             phonon.notif('HELLO', 3000, false);
         });
-
         document.querySelector('#show-notif').on('tap', function () {
             phonon.notif('#notif-example').show();
         });
-
         document.querySelector('#show-notif-button').on('tap', function () {
             phonon.notif('HELLO', 3000, true, 'Bye');
         });
     });
-
     activity.onReady(function () {
 
         phonon.notif('Welcome!', 3000, true);
-
     });
 });
-
 app.on({page: 'pagepanel', content: 'pagepanel.html'});
 app.on({page: 'pagepopover', content: 'pagepopover.html'});
 app.on({page: 'pagepreloader', content: 'pagepreloader.html'}, function (activity) {
@@ -116,23 +117,17 @@ app.on({page: 'pagepreloader', content: 'pagepreloader.html'}, function (activit
         phonon.preloader(document.querySelector('#my-circle')).show();
         phonon.preloader(document.querySelector('#my-determinate')).show();
     });
-
     // Hiden preloaders when the page is invisible
     activity.onHidden(function () {
         phonon.preloader(document.querySelector('#my-circle')).hide();
         phonon.preloader(document.querySelector('#my-determinate')).hide();
     });
 });
-
 app.on({page: 'pagesidepanel', content: 'pagesidepanel.html'});
-
-
 app.on({page: 'pagetable', content: 'pagetable.html'});
-
 app.on({page: 'pagetabs', content: 'pagetabs.html'}, function (activity) {
     activity.onTabChanged(function (tabNumber) {
         document.querySelector('.tab-number').innerHTML = tabNumber;
     });
 });
-
 app.start();

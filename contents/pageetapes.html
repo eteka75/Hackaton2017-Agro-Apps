@@ -2,7 +2,7 @@
     <header class="header-bar">
         <button class="btn icon icon-arrow-back pull-left" data-navigation="$previous-page"></button>
         <div class="center">
-            <h1 class="title">Etapes da la recette</h1>
+            <h1 class="title">Ajouter une recette <span class="tab-number">Etape 2</span></h1>
         </div>
     </header>
     <nav class="tabs header-tabs">
@@ -12,9 +12,18 @@
         </div>
         <div class="tab-indicator"></div>
     </nav>
-    <div class="content" data-tab-contents="true" data-disable-swipe="false" data-tab-default="1">
+    <div class="tab-content">
 
-        <div class="tab-content">
+
+        <div id="load" class="hidden"><img src="./images/load.gif"></div>
+    </div>
+    <div class="content" data-tab-contents="true" data-disable-swipe="false" data-tab-default="1">
+        <div  id="titrepagebas">
+
+        </div>
+        <div class="tab-content"> <div  id="titrepagebas">
+
+            </div>
             <!--ul class="list">
                 <li class="divider" ></li>
             </ul-->
@@ -33,7 +42,7 @@
                             <textarea  name="detail" required="required" id="detail"  placeholder="Détail sur l'étape"></textarea>
                         </div>
                         <div class="input-wrapper">
-                            <input type="file" name="image" class="with-label" accept="image/*" id="image" >
+                            <input type="file" name="image" id="image" class="with-label" accept="image/*" id="image" >
 
                         </div>
                         <div class="input-wrapper">
@@ -56,97 +65,115 @@
 
 </pageetapes>
 <script>
-   
-    $(function () {
-        function recupererEtapes(idproduit) {
-            alert('')
-            $.getJSON("serveur/ajax/getdetail_etape_produit_fini.php", {id_pro: idproduit}, function (json) {
-                
-                    var titre=$("#nomprod").val();
-                for (var i = 0, max = json.length; i < max; i++) {
-                    //json[i].images
-                    var detail=json[i].detail;
-                    var image=json[i].images!=''?'<i class="icon icon-edit"></i>':'<img src="'+json[i].images'" class="circle">'
-                    var text = '<li class="collection-item avatar">';
-                    text += image+'" ';
-                    text += ' <span class="title">'+titre+'</span>';
-                    text += ' <p class="muted">'+detail+'</p>';
-                    text += '</li>';
-                    $('#collection').append(text);
-                }
-            });
 
-        }
-        recupererEtapes(1);
+
+    $(function () {
+
         var hrefd = document.location, tabrecup = hrefd.toString().split("#");
         var proid = tabrecup[2];
-        $.getJSON("serveur/ajax/get_produits_by_id.php", {idprod: proid}, function (json) {
-            if (json.nom_pro !== undefined) {
-                $('#titrepage').html("Etapes d'obtention du produit : " + json.nom_pro);
-                $('#nomprod').val(json.nom_pro);
-                $('#produit_fini').val(json.id_pro);
-            } else {
-                $('#titrepage').html("<div class='alert red text-white'>Le produit entré n'existe pas <br><a href='#!home'>Retour à l'accueil</a></div>");
-            }
-        });
-    });
-    $("#form_ajout_etape").on('submit', function (e)
-    {
-        e.preventDefault();
-        $data = "?" + $(this).serialize() + "&ajouter_etape=1";
-
-        $div = $(this).parent().find("#message_ajout_etape").empty();
-
-        $("#load").show();
-
-        $formData = new FormData($(this)[0]);
 
         $.ajax(
                 {
-                    url: $(this).attr("action") + $data,
-                    type: "POST",
-                    data: $formData,
+                    url: AppUrl.get_produits_by_id,
+                    type: "GET",
+                    data: "idprod=" + proid,
                     dataType: 'json',
-                    async: false,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
                     success: function (json)
                     {
-                        // alert(json);
-                        if (json.codeErreur === 0)
-                        {
-                            $div.addClass("alert alert-success alert-block alert-dismissable ");
-                            $div.append("<button class='close' type='button' data-dismiss='alert'>&times;</button>");
-                            $div.show(1000).append("<p>" + json.message + "</p>").delay(10000).hide(1000);
+                        //alert(json);
 
-                            $(this).children("input").val("");
-                            window.location.reload();
-                            recupererEtapes($('#produit_fini').val());
-
-                        } else
-                        {
-                            $div.addClass("alert alert-danger alert-block alert-dismissable ");
-                            $div.append("<button class='close' type='button' data-dismiss='alert'>&times;</button>");
-                            $div.show(1000).append("<p>" + json.message + "</p>").delay(10000).hide(1000);
+                        if (json.nom_pro !== undefined) {
+                            $('#titrepage').html("Etapes d'obtention du produit : " + json.nom_pro);
+                            $('#nomprod').val(json.nom_pro);
+                            $('#produit_fini').val(json.id_pro);
+                        } else {
+                            $('#titrepagebas').html("<div class='alert red text-white'>Le produit entré n'existe pas <br><a href='#!home'>Retour à l'accueil</a></div>");
                         }
-                    },
-                    error: function (resultat, statut, erreur)
-                    {
-
-
-                        $div.addClass("alert alert-danger alert-block alert-dismissable");
-                        $div.append("<button class='close' type='button' data-dismiss='alert'>&times;</button>");
-                        $div.show(1000).append("<p>" + statut + " :  " + erreur + "</p>").delay(10000).hide(1000);
-
-                    },
-                    complete: function (resultat, statut)
-                    {
-
-                        $("#load").hide();
                     }
                 });
+        recupererEtapes(proid);
+        $("#form_ajout_etape").on('submit', function (e)
+        {
+            e.preventDefault();
+            $data = "?" + $(this).serialize() + "&ajouter_etape=1";
+            $div = $("#titrepagebas").empty();
+            $("#load").show();
+            $formData = new FormData($(this)[0]);
+            $.ajax(
+                    {
+                        url: $(this).attr("action") + $data,
+                        type: "POST",
+                        data: $formData,
+                        dataType: 'json',
+                        async: false,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function (json)
+                        {
+                            // alert(json);
+                            if (json.codeErreur === 0)
+                            {
+                                $div.addClass("green text-white alert ");
+                                $div.append("<button class='close' type='button' data-dismiss='alert'>&times;</button>");
+                                $div.show(1000).append("<p>" + json.message + "</p>").delay(10000).hide(1000);
+                                $("#detail").val("");
+                                $("#image").val("");
 
+                            } else
+                            {
+                                $div.addClass("alert alert-danger alert-block alert-dismissable ");
+                                $div.append("<button class='close' type='button' data-dismiss='alert'>&times;</button>");
+                                $div.show(1000).append("<p>" + json.message + "</p>").delay(10000).hide(1000);
+                            }
+                        },
+                        error: function (resultat, statut, erreur)
+                        {
+
+
+                            $div.addClass("alert alert-danger alert-block alert-dismissable");
+                            $div.append("<button class='close' type='button' data-dismiss='alert'>&times;</button>");
+                            $div.show(1000).append("<p>" + statut + " :  " + erreur + "</p>").delay(10000).hide(1000);
+                        },
+                        complete: function (resultat, statut)
+                        {
+
+                            $("#load").hide();
+                        }
+                    });
+        });
+
+        function recupererEtapes(idproduit) {
+
+            $.ajax({
+                url: AppUrl.getdetail_etape_produit_fini,
+                type: "GET",
+                data: "id_pro=" + idproduit,
+                dataType: 'json',
+                success: function (json)
+                {
+                    var titre = $("#nomprod").val();
+                    for (var i = 0, max = json.length; i < max; i++) {
+                        //json[i].images
+                        var detail = json[i].detail;
+                        var image = ' <i class="material-icons red circle">turned_in</i>';
+                        if (json[i].image !== null) {
+                            image = '<img src="' + AppUrl.images_uploads + '' + json[i].image + '" class="circle">';
+                        }
+                        var text = '<li class="collection-item avatar">';
+                        text += image + ' ';
+                        text += ' <span class="title">' + titre + '</span>';
+                        text += ' <p class="muted">' + detail + '</p>';
+                        text += '</li>';
+                        $('#collection').append(text);
+
+                    }
+                }
+            });
+        }
+        ;
 
     });
+
+
 </script>
